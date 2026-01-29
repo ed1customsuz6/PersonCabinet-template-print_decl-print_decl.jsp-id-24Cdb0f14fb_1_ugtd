@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <title>БЮДни юклаб олиш </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root{
+      --blue:#2a58d6;
+      --blue-dark:#203fa0;
+      --green:#0d9b00;
+      --light:#f7fbff;
+      --box-bg:#ffffff;
+      --label-color:#ffffff;
+      --value-color:#0d10a3;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f3f7fb 0%, #eef4fb 50%, #f9fbfe 100%);
+      font-size:16px; /* asosiy baza */
+    }
+    .page {
+      display:flex;
+      min-height:100vh;
+      align-items:flex-start;
+      justify-content:flex-start;
+    }
+    .left-col{
+      width:22rem;          /* 360px */
+      padding:1.25rem;      /* 20px */
+      box-sizing:border-box;
+    }
+    .right-col{
+      flex:1;
+      min-height:100vh;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.6) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="%23f2f6fb"/><g opacity="0.2" fill="%23cfdff1"><rect x="0" y="0" width="100" height="100" transform="rotate(45 50 50)"/></g></svg>');
+      background-repeat:repeat;
+      background-size:cover;
+      padding:1.25rem;
+    }
+    .panel{
+      background:var(--box-bg);
+      border-radius:0.4rem;
+      box-shadow: 0 0.06rem 0 rgba(0,0,0,0.05);
+      padding:0.5rem;
+      width:100%;
+    }
+    .brand {
+      background:var(--green);
+      color:#fff;
+      border-radius:0.4rem;
+      padding:0.75rem;
+      display:flex;
+      gap:0.75rem;
+      align-items:center;
+      margin-bottom:0.75rem;
+    }
+    .brand img{
+      width:4rem; height:4rem;   /* 64px */
+      object-fit:contain;
+      border-radius:0.4rem;
+      background:var(--green);
+      padding:0.4rem;            /* 6px */
+    }
+    .brand .title {
+      font-weight:400;
+      line-height:1.05;
+      font-size:0.75rem;        /* 12px */
+    }
+    .page-title{
+      background:var(--green);
+      color:#fff;
+      border-radius:0.4rem;
+      padding:0.6rem;           /* 10px */
+      text-align:center;
+      font-weight:400;
+      margin:0.6rem 0 1rem 0;   /* 10px 0 16px */
+      box-shadow: inset 0 -0.12rem rgba(0,0,0,0.05);
+    }
+    .row {
+      display:flex;
+      gap:0.6rem;               /* 10px */
+      margin-bottom:0.6rem;
+      align-items:center;
+    }
+    .row .label{
+      width:40%;
+      min-width:9rem;           /* 140px */
+      background:var(--blue);
+      color:var(--label-color);
+      padding:0.5rem 0.6rem;    /* 8px 10px */
+      border-radius:0.4rem;
+      font-size:0.8rem;         /* 13px */
+      text-align:right;
+      box-sizing:border-box;
+    }
+    .row .value{
+      flex:1;
+      background:#fff;
+      padding:0.5rem 0.6rem;
+      border-radius:0.4rem;
+      border:0.06rem solid #0059ff;
+      color:var(--value-color);
+      font-weight:400;
+      box-sizing:border-box;
+      min-height:2rem;          /* 34px */
+      font-size:0.75rem;        /* 12px */
+    }
+    .value.alert{
+      color:#bd4913;
+      font-weight:550;
+    }
+    .items-block{
+      margin-top:0.5rem;        /* 8px */
+      border-radius:0.4rem;
+      border:0.06rem solid #0059ff;
+      overflow:hidden;
+      background:#fff;
+    }
+    .items-header{
+      background:#d5f3ff;
+      padding:0.4rem;           /* 6px */
+      font-weight:700;
+      color:#0d10a3;
+      display:flex;
+      gap:0.5rem;
+      align-items:center;
+    }
+    .items-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.8rem;         /* 13px */
+    }
+    .items-table th, .items-table td{
+      padding:0.5rem;           /* 8px */
+      border-right:0.06rem solid #e6f0ff;
+      border-bottom:0.06rem solid #e6f0ff;
+      text-align:center;
+      vertical-align:middle;
+    }
+    .items-table th:last-child, .items-table td:last-child{ border-right:none; }
+    textarea.desc {
+      width:100%;
+      min-height:3.75rem;       /* 60px */
+      font-size:0.75rem;        /* 12px */
+      padding:0.4rem;
+      border:0.06rem solid #cfe0ff;
+      border-radius:0.25rem;
+      resize:vertical;
+    }
+    .total-row {
+      display:flex;
+      gap:0.6rem;
+      margin-top:0.6rem;
+    }
+    .total-row .label{
+      width:40%;
+      background:var(--blue-dark);
+      text-align:right;
+      color:#fff;
+      border-radius:0.4rem;
+      padding:0.5rem 0.6rem;
+    }
+    .total-row .value{
+      background:#fff;
+      border:0.12rem solid #dbe7ff;
+      color:var(--value-color);
+      font-weight:700;
+      flex:1;
+      border-radius:0.4rem;
+      padding:0.5rem 0.6rem;
+    }
+    .download-btn{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      margin-top:0.9rem;        /* 14px */
+      background:var(--green);
+      color:#fff;
+      padding:0.6rem 0.75rem;
+      border-radius:0.4rem;
+      text-decoration:none;
+      width:100%;
+      justify-content:center;
+      font-weight:700;
+    }
+    .download-btn svg{ width:1.1rem; height:1.1rem; }
+    @media (max-width:900px){
+      .left-col{ width:100%; }
+      .page{ flex-direction:column; }
+      .row .label{ text-align:left; width:40%; }
+      }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="left-col">
+      <div class="panel">
+
+        <div class="brand">
+          <img src="https://ed1.customs.uz/PersonCabinet/main_img/Logo-tamozhni.png" alt="герб">
+          <div class="title">
+            ЎЗБЕКИСТОН РЕСПУБЛИКАСИ<br>
+            ДАВЛАТ БОЖХОНА ҚЎМИТАСИ
+          </div>
+        </div>
+
+        <div class="page-title">БОЖХОНА ЮК ДЕКЛАРАЦИЯСИ</div>
+
+        <div class="row">
+          <div class="label">БЮДнинг рўйхат рақами:</div>
+          <div class="value"> 10002 / 02.05.2022 / 0003332</div>
+        </div>
+
+        <div class="row">
+          <div class="label">БЮД рўйхатга олинган вақт:</div>
+          <div class="value">25.10.2018 16:25:32</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Расмийлаштирилган вақт:</div>
+          <div class="value">26.10.2018 15:05:21</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Расмийлаштирув ҳолати:</div>
+          <div class="value">Расмийлаштирилган</div>
+        </div>
+
+        <div class="row">
+          <div class="label">БЮД йўлаги:</div>
+          <div class="value alert">Қизил</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Божхона режими:</div>
+          <div class="value">ИМ 40</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Юк жўнатувчи давлат:</div>
+          <div class="value">156 - КИТАЙ</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Юк келиб тушадиган давлат:</div>
+          <div class="value">860 - ЎЗБЕКИСТОН</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Чегарадаги божхона пости:</div>
+          <div class="value">06010 - "Олот" ЧК</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Транспорт воситаси тури:</div>
+          <div class="value">30 - Автомобиль транспорти</div>
+        </div>
+
+        <div style="margin-top:0.5rem;">
+          <div class="items-block">
+            <div class="items-header">
+              <div style="flex:1; text-align:left; padding-left:0.5rem;">Товар тўғрисидаги маълумотлар:</div>
+              <div id="cnt_com" style="padding-right:0.5rem; font-weight:700;">Товар сони: 1 та</div>
+            </div>
+            <table class="items-table" aria-label="Товарлар">
+              <thead>
+                <tr>
+                  <th style="width:3.75rem;">№</th>
+                  <th style="width:7.5rem;">ТИФ ТН коди</th>
+                  <th>Товар номи</th>
+                  <th style="width:7.5rem;">Нетто оғирлиги</th>
+                  <th style="width:7.5rem;">Брутто оғирлиги</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>8474310000</td>
+                  <td style="text-align:left;">
+                    <textarea class="desc">1) Оборудование Дробильно-сортировочного (щековая дробилка ... марки AIMIX AJ50, янги г/в 2022, ишлаб чиқарувчи: ZHENGZHOU AIMIX INDUSTRY CO., LTD (КИТАЙ). в разобранном виде. Вес: 11430 кг, кол-во: 1 шт.; 97 места;</textarea>
+                  </td>
+                  <td>3 500,000</td>
+                  <td>3 500,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="total-row">
+          <div class="label">Товарнинг умумий нетто оғирлиги:</div>
+          <div class="value">3 500,000 кг.</div>
+        </div>
+
+        <div class="total-row">
+          <div class="label">Товарнинг умумий брутто оғирлиги:</div>
+          <div class="value">3 500,000 кг.</div>
+        </div>
+
+        <!-- ✅ Электрон БЮДни юклаб олиш тугмаси -->
+        <a class="download-btn" 
+        href="https://drive.google.com/uc?export=download&id=1rUx6IRGO17VFaTdjhSQ9-yfnvBRaEmy7" 
+        download    
+   title="Электрон БЮДни юклаб олиш">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="2" fill="#fff" opacity="0.15"/>
+    <path d="M6 7h6l2 2v8a1 1 0 0 1-1 1H6V7z" fill="#fff" opacity="0.14"/>
+    <path d="M13 7v3a1 1 0 0 0 1 1h3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- PDF yozuvi o‘rniga rasm qo‘yildi -->
+    <image href="data:image/jpeg;base64,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" 
+           x="5" y="7" width="25" height="25"/>
+  </svg>
+  Электрон БЮДни юклаб олиш
+</a>
+
+
+      </div>
+    </div>
+    <div class="right-col"></div>
+  </div>
+
+  <script>
+    (function(){
+      var tbody = document.querySelector('.items-table tbody');
+      var rows = tbody ? tbody.querySelectorAll('tr') : [];
+      var cnt = rows.length;
+      var cntNode = document.getElementById('cnt_com');
+      if(cntNode) cntNode.textContent = 'Товар сони: ' + cnt + ' та';
+    })();
+  </script>
+</body>
+</html>
